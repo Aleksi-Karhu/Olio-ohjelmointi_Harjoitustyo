@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/dietInputFragment"
+        android:name="com.example.vegainz.DietInputFragment"
+        android:label="fragment_diet_input"
+        tools:layout="@layout/fragment_diet_input" >
+        <action
+            android:id="@+id/action_dietInputFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/massInputFragment"
+        android:name="com.example.vegainz.MassInputFragment"
+        android:label="fragment_mass_input"
+        tools:layout="@layout/fragment_mass_input" >
+        <action
+            android:id="@+id/action_massInputFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.vegainz.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_massChangeFragment"
+            app:destination="@id/massChangeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_massInputFragment"
+            app:destination="@id/massInputFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dietInputFragment"
+            app:destination="@id/dietInputFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dietChangeFragment"
+            app:destination="@id/dietChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.vegainz.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dietChangeFragment"
+        android:name="com.example.vegainz.DietChangeFragment"
+        android:label="fragment_diet_change"
+        tools:layout="@layout/fragment_diet_change" >
+        <action
+            android:id="@+id/action_dietChangeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/massChangeFragment"
+        android:name="com.example.vegainz.MassChangeFragment"
+        android:label="fragment_mass_change"
+        tools:layout="@layout/fragment_mass_change" >
+        <action
+            android:id="@+id/action_massChangeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>
