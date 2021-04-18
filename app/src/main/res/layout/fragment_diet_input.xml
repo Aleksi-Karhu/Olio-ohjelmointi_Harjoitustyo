@@ -21,14 +21,205 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Diet Input"
+        android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.934" />
+
+    <TextView
+        android:id="@+id/dietInputText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Input your weekly averages"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089" />
+
+    <CheckBox
+        android:id="@+id/lowCarbonCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Low carbon diet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.129"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.314"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.914" />
+
+    <EditText
+        android:id="@+id/beefInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="36dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Beef"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.316" />
+
+    <EditText
+        android:id="@+id/fishInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Fish"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.762"
+        app:layout_constraintStart_toEndOf="@+id/beefInput"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.316" />
+
+    <EditText
+        android:id="@+id/porkInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Pork and Poultry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/beefInput"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <EditText
+        android:id="@+id/dairyInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Dairy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/porkInput"
+        app:layout_constraintTop_toBottomOf="@+id/fishInput"
+        app:layout_constraintVertical_bias="0.098" />
+
+    <EditText
+        android:id="@+id/cheeseInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Cheese"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/porkInput"
+        app:layout_constraintVertical_bias="0.102" />
+
+    <EditText
+        android:id="@+id/riceInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Rice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/cheeseInput"
+        app:layout_constraintTop_toBottomOf="@+id/dairyInput"
+        app:layout_constraintVertical_bias="0.102" />
+
+    <EditText
+        android:id="@+id/eggInput"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Eggs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cheeseInput"
+        app:layout_constraintVertical_bias="0.139" />
+
+    <RadioGroup
+        android:id="@+id/dietRadioGroup"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/eggInput"
+        app:layout_constraintTop_toBottomOf="@+id/riceInput"
+        app:layout_constraintVertical_bias="0.322">
+
+        <RadioButton
+            android:id="@+id/omnivoreButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Omnivore" />
+
+        <RadioButton
+            android:id="@+id/veganButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vegan" />
+
+        <RadioButton
+            android:id="@+id/vegetarianButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vegetarian" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/dietText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diet"
+        app:layout_constraintBottom_toTopOf="@+id/dietRadioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.751"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/riceInput"
+        app:layout_constraintVertical_bias="0.9" />
 
 </android.support.constraint.ConstraintLayout>
