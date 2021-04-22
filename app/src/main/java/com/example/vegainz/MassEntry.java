@@ -8,7 +8,6 @@ public class MassEntry extends Entry {
         super(date);
         this.mass = mass;
 
-
     }
 
 }
