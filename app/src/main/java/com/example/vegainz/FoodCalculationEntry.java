@@ -4,15 +4,15 @@ public class FoodCalculationEntry extends Entry {
 
     String diet;
     boolean lowCarbonPreference;
-    int beef;
-    int fish;
-    int pork;
-    int dairy;
-    int cheese;
-    int rice;
+    float beef;
+    float fish;
+    float pork;
+    float dairy;
+    float cheese;
+    float rice;
     int eggs;
 
-    FoodCalculationEntry(String diet, boolean lowCarbonPreference, int beef, int fish, int pork, int dairy, int cheese, int rice, int eggs, String date) {
+    FoodCalculationEntry(String diet, boolean lowCarbonPreference, float beef, float fish, float pork, float dairy, float cheese, float rice, int eggs, String date) {
         super(date);
         this.diet = diet;
         this.lowCarbonPreference = lowCarbonPreference;

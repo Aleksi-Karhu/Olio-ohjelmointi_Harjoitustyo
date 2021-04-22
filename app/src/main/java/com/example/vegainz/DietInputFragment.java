@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,6 +21,18 @@ import androidx.navigation.Navigation;
  * create an instance of this fragment.
  */
 public class DietInputFragment extends Fragment {
+
+    EditText date;
+    CheckBox lowCarbon;
+    EditText beef;
+    EditText fish;
+    EditText pork;
+    EditText rice;
+    EditText egg;
+    EditText dairy;
+    EditText cheese;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,6 +86,28 @@ public class DietInputFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
 
+
+        date = view.findViewById(R.id.editTextDate);
+        Button submit = view.findViewById(R.id.submitButton);
+        lowCarbon = view.findViewById(R.id.lowCarbonCheckBox);
+        beef = view.findViewById(R.id.beefInput);
+        fish = view.findViewById(R.id.fishInput);
+        pork = view.findViewById(R.id.porkInput);
+        rice = view.findViewById(R.id.riceInput);
+        egg = view.findViewById(R.id.eggInput);
+        dairy = view.findViewById(R.id.dairyInput);
+        cheese = view.findViewById(R.id.cheeseInput);
+        radioGroup = view.findViewById(R.id.dietRadioGroup);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
         Button DIHome = view.findViewById(R.id.buttonDItoHome);
         DIHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +115,18 @@ public class DietInputFragment extends Fragment {
                 navController.navigate(R.id.action_dietInputFragment_to_homeFragment);
             }
         });
+
+
     }
+
+    public void checkDiet(View v) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = v.findViewById(radioId);
+
+    }
+
+
+
+   
 
 }
