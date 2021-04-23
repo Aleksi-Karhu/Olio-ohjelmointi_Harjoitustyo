@@ -2,11 +2,14 @@ package com.example.vegainz;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,6 +20,9 @@ import androidx.navigation.Navigation;
  * create an instance of this fragment.
  */
 public class MassInputFragment extends Fragment {
+
+    EditText date;
+    EditText mass;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,8 +75,25 @@ public class MassInputFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
-
+        mass = view.findViewById(R.id.inputMIMass);
+        date = view.findViewById(R.id.inputMIDate);
+        final Button submit = view.findViewById(R.id.buttonMISubmit);
         Button MIHome = view.findViewById(R.id.buttonMItoHome);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (date.getText().toString().isEmpty() || mass.getText().toString().isEmpty()){
+
+                }else {
+                    Entry entry = new MassEntry(date.getText().toString(), Float.valueOf(mass.getText().toString()));
+                    System.out.println(((MassEntry) entry).date + " " + ((MassEntry) entry).mass);
+                }
+            }
+        });
+
+
+
         MIHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

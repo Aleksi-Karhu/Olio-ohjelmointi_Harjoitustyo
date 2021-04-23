@@ -2,7 +2,7 @@ package com.example.vegainz;
 
 public class Entry {
 
-    private String date;
+    public String date;
 
     public Entry(String date) {
 
