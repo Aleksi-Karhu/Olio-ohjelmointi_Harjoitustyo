@@ -79,6 +79,7 @@ public class MassInputFragment extends Fragment {
         date = view.findViewById(R.id.inputMIDate);
         final Button submit = view.findViewById(R.id.buttonMISubmit);
         Button MIHome = view.findViewById(R.id.buttonMItoHome);
+        final EntryController entryController = new EntryController();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,8 +87,8 @@ public class MassInputFragment extends Fragment {
                 if (date.getText().toString().isEmpty() || mass.getText().toString().isEmpty()){
 
                 }else {
-                    Entry entry = new MassEntry(date.getText().toString(), Float.valueOf(mass.getText().toString()));
-                    System.out.println(((MassEntry) entry).date + " " + ((MassEntry) entry).mass);
+                    entryController.createMassEntry(date.getText().toString(),Float.valueOf(mass.getText().toString()));
+                    entryController.printEntries();
                 }
             }
         });
