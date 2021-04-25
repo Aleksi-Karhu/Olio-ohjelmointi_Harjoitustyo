@@ -88,7 +88,7 @@ public class MassInputFragment extends Fragment {
 
                 }else {
                     entryController.createMassEntry(date.getText().toString(),Float.valueOf(mass.getText().toString()));
-                    entryController.printEntries();
+                    entryController.printMassEntries();
                 }
             }
         });
