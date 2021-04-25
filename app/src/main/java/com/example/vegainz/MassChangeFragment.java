@@ -11,6 +11,13 @@ import android.widget.Button;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MassChangeFragment#newInstance} factory method to
@@ -26,7 +33,7 @@ public class MassChangeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    LineChart mpLineChart;
     public MassChangeFragment() {
         // Required empty public constructor
     }
@@ -69,13 +76,31 @@ public class MassChangeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
-
+        mpLineChart = view.findViewById(R.id.lineChartMC);
         Button MCHome = view.findViewById(R.id.buttonMCtoHOME);
+
+        LineDataSet lineDataSet1 = new LineDataSet(dataValues1(),"Data Set 1");
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet1);
+
+        LineData data = new LineData(dataSets);
+        mpLineChart.setData(data);
+        mpLineChart.invalidate();
+
         MCHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_massChangeFragment_to_homeFragment);
             }
         });
+    }
+    private ArrayList<Entry> dataValues1()
+    {
+        ArrayList<Entry> dataVals = new ArrayList<Entry>();
+        dataVals.add(new MassEntry(12.12.1990, 51.0));
+        dataVals.add(new MassEntry(13.12.1990, 55.0));
+        dataVals.add(new MassEntry(14.12.1990, 53.0));
+        dataVals.add(new MassEntry(15.12.1990, 70.0));
+
     }
 }
