@@ -9,7 +9,7 @@ public class EntryController {
         entries.add(new MassEntry(date,mass));
     }
 
-    public void printEntries(){
+    public void printMassEntries(){
         System.out.println("All accounts:");
         Entry temp;
         if(entries != null){
