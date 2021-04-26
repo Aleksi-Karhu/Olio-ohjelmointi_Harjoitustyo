@@ -1,5 +1,6 @@
 package com.example.vegainz;
 
+import android.net.UrlQuerySanitizer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,22 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +46,7 @@ public class MassChangeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     LineChart mpLineChart;
+
     public MassChangeFragment() {
         // Required empty public constructor
     }
@@ -78,10 +91,25 @@ public class MassChangeFragment extends Fragment {
         final NavController navController = Navigation.findNavController(view);
         mpLineChart = view.findViewById(R.id.lineChartMC);
         Button MCHome = view.findViewById(R.id.buttonMCtoHOME);
+        XAxis xAxis = mpLineChart.getXAxis();
+        YAxis yAxisLeft = mpLineChart.getAxisLeft();
+        YAxis yAxisRight = mpLineChart.getAxisRight();
 
-        LineDataSet lineDataSet1 = new LineDataSet(dataValues1(),"Data Set 1");
+        LineDataSet lineDataSet1 = null;
+        try {
+            lineDataSet1 = new LineDataSet(dataValues1(), "Data Set 1");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet1);
+
+        xAxis.setValueFormatter(new MyAxisValueFormatter());
+        try {
+            xAxis.setLabelCount(dataValues1().size(),true);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         LineData data = new LineData(dataSets);
         mpLineChart.setData(data);
@@ -94,13 +122,24 @@ public class MassChangeFragment extends Fragment {
             }
         });
     }
-    private ArrayList<Entry> dataValues1()
-    {
-        ArrayList<Entry> dataVals = new ArrayList<Entry>();
-        dataVals.add(new MassEntry(12.12.1990, 51.0));
-        dataVals.add(new MassEntry(13.12.1990, 55.0));
-        dataVals.add(new MassEntry(14.12.1990, 53.0));
-        dataVals.add(new MassEntry(15.12.1990, 70.0));
 
+
+    private ArrayList<com.github.mikephil.charting.data.Entry> dataValues1() throws ParseException {
+        EntryController entryController = new EntryController();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.getMassEntries();
+
+        return dataVals;
     }
+
+
+    private class MyAxisValueFormatter extends ValueFormatter {
+
+            @Override
+            public String getFormattedValue(float value) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
+
+                return sdf.format(value);
+            }
+        }
+
 }

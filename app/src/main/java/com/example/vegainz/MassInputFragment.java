@@ -14,6 +14,8 @@ import android.widget.EditText;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.text.ParseException;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MassInputFragment#newInstance} factory method to
@@ -87,8 +89,12 @@ public class MassInputFragment extends Fragment {
                 if (date.getText().toString().isEmpty() || mass.getText().toString().isEmpty()){
 
                 }else {
-                    entryController.createMassEntry(date.getText().toString(),Float.valueOf(mass.getText().toString()));
-                    entryController.printMassEntries();
+                    try {
+                        entryController.createMassEntry(date.getText().toString(),Float.valueOf(mass.getText().toString()));
+                        entryController.getMassEntries();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
