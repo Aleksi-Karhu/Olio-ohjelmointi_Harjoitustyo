@@ -1,24 +1,29 @@
 package com.example.vegainz;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class EntryController {
-    private final ArrayList<Entry> entries = new ArrayList();
+    private final static ArrayList<Entry> entries = new ArrayList();
 
-    public void createMassEntry(String date, float mass){
+    public void createMassEntry(String date, float mass) throws ParseException {
+
         entries.add(new MassEntry(date,mass));
     }
 
-    public void printMassEntries(){
-        System.out.println("All accounts:");
+    public ArrayList<com.github.mikephil.charting.data.Entry> getMassEntries() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
         if(entries != null){
             for(int i = 0;i<entries.size();i++) {
                 temp = entries.get(i);
+                tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime(),((MassEntry)temp).mass));
                 System.out.println("Date: "+temp.date+" Mass: "+ ((MassEntry) temp).mass);
                 }
             }
+        return tempList;
     }
-
 
 }

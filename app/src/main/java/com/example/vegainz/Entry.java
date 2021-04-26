@@ -1,5 +1,7 @@
 package com.example.vegainz;
 
+import java.util.Date;
+
 public class Entry {
 
     public String date;
