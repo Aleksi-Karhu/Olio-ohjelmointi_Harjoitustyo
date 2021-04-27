@@ -12,6 +12,19 @@ public class EntryController {
         entries.add(new MassEntry(date,mass));
     }
 
+    public void createFoodCalculationEntry(String diet, boolean lowCarbonPreference,
+                                           float beef, float fish, float pork, float dairy,
+                                           float cheese, float rice, int eggs, String date) throws ParseException {
+        entries.add(new FoodCalculationEntry(diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs, date));
+    }
+
+    public void createC0Entry(String date, float mass) throws ParseException {
+        entries.add(new CO2Entry(date,mass));
+    }
+
+
+
+
     public ArrayList<com.github.mikephil.charting.data.Entry> getMassEntries() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
