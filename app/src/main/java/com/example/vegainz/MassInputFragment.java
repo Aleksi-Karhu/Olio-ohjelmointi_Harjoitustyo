@@ -15,6 +15,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,17 +81,20 @@ public class MassInputFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
+        final EntryController entryController = new EntryController();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH).withResolverStyle(ResolverStyle.STRICT);
+        final DateValidator validator = new DateValidatorUsingDateTimeFormatter(dateFormatter);
+
         mass = view.findViewById(R.id.inputMIMass);
         date = view.findViewById(R.id.inputMIDate);
         final Button submit = view.findViewById(R.id.buttonMISubmit);
         Button MIHome = view.findViewById(R.id.buttonMItoHome);
-        final EntryController entryController = new EntryController();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (date.getText().toString().isEmpty() || mass.getText().toString().isEmpty()){
-
+                if (date.getText().toString().isEmpty() || mass.getText().toString().isEmpty() || validator.isValid(date.getText().toString()) == false){
+                    System.out.println("false");
                 }else {
                     try {
                         entryController.createMassEntry(date.getText().toString(),Float.valueOf(mass.getText().toString()));
@@ -108,4 +115,6 @@ public class MassInputFragment extends Fragment {
             }
         });
     }
+
+
 }
