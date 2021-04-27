@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "365991104566",
+    "project_id": "olioht-cf8b6",
+    "storage_bucket": "olioht-cf8b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365991104566:android:4e5bacf15fb2c035e74897",
+        "android_client_info": {
+          "package_name": "com.example.vegainz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365991104566-ugb2e7ookqse2igldf9equvd1uksjhdp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW-WB3DUW1P0fCdWJD63xhzFtKAXYRjMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365991104566-ugb2e7ookqse2igldf9equvd1uksjhdp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
