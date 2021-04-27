@@ -82,8 +82,10 @@ public class MassChangeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
+
         mpLineChart = view.findViewById(R.id.lineChartMC);
         Button MCHome = view.findViewById(R.id.buttonMCtoHOME);
+
         XAxis xAxis = mpLineChart.getXAxis();
         YAxis yAxisLeft = mpLineChart.getAxisLeft();
         YAxis yAxisRight = mpLineChart.getAxisRight();

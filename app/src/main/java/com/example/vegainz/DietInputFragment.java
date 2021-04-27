@@ -15,6 +15,11 @@ import android.widget.RadioGroup;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
+import java.util.Locale;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DietInputFragment#newInstance} factory method to
@@ -82,10 +87,12 @@ public class DietInputFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
-
+        final EntryController entryController = new EntryController();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH).withResolverStyle(ResolverStyle.STRICT);
+        final DateValidator validator = new DateValidatorUsingDateTimeFormatter(dateFormatter);
 
         date = view.findViewById(R.id.editTextDate);
         Button submit = view.findViewById(R.id.submitButton);
@@ -102,7 +109,18 @@ public class DietInputFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (date.getText().toString().isEmpty() || beef.getText().toString().isEmpty() || fish.getText().toString().isEmpty() || pork.getText().toString().isEmpty() || rice.getText().toString().isEmpty() ||
+                        egg.getText().toString().isEmpty() || dairy.getText().toString().isEmpty() || cheese.getText().toString().isEmpty() || validator.isValid(date.getText().toString()) == false){
+                    // lisää popup ilmoitus puuttuvista arvoista. sama massinputtiin
+                    System.out.println("false");
+                }else {
+                    try {
+                        entryController.createFoodCalculationEntry(onRadioButtonClicked(view), lowCarbon.isChecked(), Float.valueOf(beef.getText().toString()), Float.valueOf(fish.getText().toString()), Float.valueOf(pork.getText().toString()), Float.valueOf(dairy.getText().toString()),
+                                 Float.valueOf(cheese.getText().toString()), Float.valueOf(rice.getText().toString()), Integer.parseInt(egg.getText().toString()), date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -119,14 +137,23 @@ public class DietInputFragment extends Fragment {
 
     }
 
-    public void checkDiet(View v) {
-        int radioId = radioGroup.getCheckedRadioButtonId();
-        radioButton = v.findViewById(radioId);
+    public String onRadioButtonClicked(View view) {
+        RadioButton omni = view.findViewById(R.id.omnivoreButton);
+        RadioButton vegan = view.findViewById(R.id.veganButton);
+        RadioButton vegetarian = view.findViewById(R.id.vegetarianButton);
+        String diet = "";
 
+        if ( omni.isChecked() == true ) {
+            diet = "Omnivore";
+        }
+
+        if ( vegan.isChecked() == true ){
+            diet = "Vegan";
+        }
+        if ( vegetarian.isChecked() == true ){
+            diet = "Vegetarian";
+        }
+        return diet;
     }
-
-
-
-   
 
 }

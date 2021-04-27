@@ -18,7 +18,9 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 
 public class EntryController {
-    private final static ArrayList<Entry> entries = new ArrayList();
+    private final static ArrayList<Entry> massEntries = new ArrayList();
+    private final static ArrayList<Entry> c0Entries = new ArrayList();
+    private final static ArrayList<Entry> foodCalculationEntries = new ArrayList();
 
     private static final String DATE_KEY = "date";
     private static final String MASS_KEY = "mass";
@@ -60,7 +62,7 @@ public class EntryController {
             }
         });
 
-        entries.add(new MassEntry(date,mass));
+        massEntries.add(new MassEntry(date,mass));
     }
 
     public void getMassEntry() {
@@ -78,11 +80,11 @@ public class EntryController {
     public void createFoodCalculationEntry(String diet, boolean lowCarbonPreference,
                                            float beef, float fish, float pork, float dairy,
                                            float cheese, float rice, int eggs, String date) throws ParseException {
-        entries.add(new FoodCalculationEntry(diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs, date));
+        foodCalculationEntries.add(new FoodCalculationEntry(diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs, date));
     }
 
-    public void createC0Entry(String date, float mass) throws ParseException {
-        entries.add(new CO2Entry(date,mass));
+    public void createC0Entry(String date, float co2) throws ParseException {
+        c0Entries.add(new CO2Entry(date,co2));
     }
 
 
@@ -92,11 +94,10 @@ public class EntryController {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
-        if(entries != null){
-            for(int i = 0;i<entries.size();i++) {
-                temp = entries.get(i);
+        if(massEntries != null){
+            for(int i = 0;i<massEntries.size();i++) {
+                temp = massEntries.get(i);
                 tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime(),((MassEntry)temp).mass));
-                System.out.println("Date: "+temp.date+" Mass: "+ ((MassEntry) temp).mass);
                 }
             }
         return tempList;
