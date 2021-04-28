@@ -12,7 +12,11 @@ public class FoodCalculationEntry extends Entry {
     float rice;
     int eggs;
 
-    FoodCalculationEntry(String diet, boolean lowCarbonPreference, float beef, float fish, float pork, float dairy, float cheese, float rice, int eggs, String date) {
+    public FoodCalculationEntry() {
+
+    }
+
+    public FoodCalculationEntry(String date, String diet, boolean lowCarbonPreference, float beef, float fish, float pork, float dairy, float cheese, float rice, int eggs) {
         super(date);
         this.diet = diet;
         this.lowCarbonPreference = lowCarbonPreference;
@@ -26,5 +30,39 @@ public class FoodCalculationEntry extends Entry {
 
     }
 
+    public String getDiet() {
+        return diet;
+    }
 
+    public boolean isLowCarbonPreference() {
+        return lowCarbonPreference;
+    }
+
+    public float getBeef() {
+        return beef;
+    }
+
+    public float getFish() {
+        return fish;
+    }
+
+    public float getPork() {
+        return pork;
+    }
+
+    public float getDairy() {
+        return dairy;
+    }
+
+    public float getCheese() {
+        return cheese;
+    }
+
+    public float getRice() {
+        return rice;
+    }
+
+    public int getEggs() {
+        return eggs;
+    }
 }

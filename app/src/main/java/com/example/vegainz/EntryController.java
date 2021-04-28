@@ -29,11 +29,11 @@ public class EntryController {
     private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("massEntries/userMass");
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference massRef = db.collection("massEntries");
-
+    private CollectionReference dietRef = db.collection("dietEntries");
+    private CollectionReference carbonRef = db.collection("carbonEntries");
 
     public void makeMassEntry(String date, float mass) throws ParseException {
         MassEntry ME = new MassEntry(date, mass);
-
 
         massRef.add(ME).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -55,23 +55,9 @@ public class EntryController {
         Map<String, Object> saveMass = new HashMap<String, Object>();
         //saveMass.put(DATE_KEY, date);
         //saveMass.put(MASS_KEY, mass);
-        //CO2Request request = new CO2Request();
-        //request.getData();
+        CO2Request request = new CO2Request();
+        request.getData();
 
-        /*mDocRef.set(saveMass).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Saving entry successful ");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Saving entry failed");
-            }
-        });
-
-
-*/
         entries.add(new MassEntry(date,mass));
     }
 
@@ -98,13 +84,58 @@ public class EntryController {
 
 
 
-    public void createFoodCalculationEntry(String diet, boolean lowCarbonPreference,
+    public void createFoodCalculationEntry(String date, String diet, boolean lowCarbonPreference,
                                            float beef, float fish, float pork, float dairy,
-                                           float cheese, float rice, int eggs, String date) throws ParseException {
-        entries.add(new FoodCalculationEntry(diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs, date));
+                                           float cheese, float rice, int eggs) throws ParseException {
+
+        FoodCalculationEntry FCE = new FoodCalculationEntry(date, diet, lowCarbonPreference, beef,
+                fish, pork, dairy, cheese, rice, eggs);
+
+        dietRef.add(FCE).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d(TAG, "Saving entry successful ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Saving entry failed");
+            }
+        });
+
     }
 
-    public void createCOEntry(String date, float mass) throws ParseException {
+    public void getDietEntries() {
+        dietRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    FoodCalculationEntry FCE = documentSnapshot.toObject(FoodCalculationEntry.class);
+
+                    String date = FCE.getDate();
+                    String diet = FCE.getDiet();
+                    boolean lowCarbonPreference = FCE.isLowCarbonPreference();
+                    float beef = FCE.getBeef();
+                    float fish = FCE.getFish();
+                    float pork = FCE.getPork();
+                    float dairy = FCE.getDairy();
+                    float cheese = FCE.getCheese();
+                    float rice = FCE.getRice();
+                    int eggs = FCE.getEggs();
+
+                    System.out.println("Date: "+ date + "\nBeef: "+ beef + "\n\n");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Failure fetching data");
+            }
+        });
+    }
+
+
+    public void createCOEntry(String date, float carbon) throws ParseException {
 
 
     }

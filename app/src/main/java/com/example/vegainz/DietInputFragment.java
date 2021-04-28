@@ -115,8 +115,8 @@ public class DietInputFragment extends Fragment {
                     System.out.println("false");
                 }else {
                     try {
-                        entryController.createFoodCalculationEntry(onRadioButtonClicked(view), lowCarbon.isChecked(), Float.valueOf(beef.getText().toString()), Float.valueOf(fish.getText().toString()), Float.valueOf(pork.getText().toString()), Float.valueOf(dairy.getText().toString()),
-                                 Float.valueOf(cheese.getText().toString()), Float.valueOf(rice.getText().toString()), Integer.parseInt(egg.getText().toString()), date.getText().toString());
+                        entryController.createFoodCalculationEntry(date.getText().toString(), onRadioButtonClicked(view), lowCarbon.isChecked(), Float.valueOf(beef.getText().toString()), Float.valueOf(fish.getText().toString()), Float.valueOf(pork.getText().toString()), Float.valueOf(dairy.getText().toString()),
+                                 Float.valueOf(cheese.getText().toString()), Float.valueOf(rice.getText().toString()), Integer.parseInt(egg.getText().toString()));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
