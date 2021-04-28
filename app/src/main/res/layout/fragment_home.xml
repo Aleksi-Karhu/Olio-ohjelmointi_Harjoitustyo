@@ -30,20 +30,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintVertical_bias="0.385" />
 
     <Button
         android:id="@+id/buttonDietChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="284dp"
         android:text="Diet Change"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonDietInput"
-        app:layout_constraintVertical_bias="0.519" />
+        app:layout_constraintVertical_bias="0.043" />
 
     <Button
         android:id="@+id/buttonMassInput"
@@ -56,7 +55,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonDietChange"
-        app:layout_constraintVertical_bias="0.939" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/buttonMassChange"
@@ -70,5 +69,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonMassInput"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonMeatChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Meat Change"
+        app:layout_constraintBottom_toTopOf="@+id/buttonMassInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDietChange" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

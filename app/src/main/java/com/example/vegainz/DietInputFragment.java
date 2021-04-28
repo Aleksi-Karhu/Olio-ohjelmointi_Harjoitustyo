@@ -143,12 +143,12 @@ public class DietInputFragment extends Fragment {
                                 Float.valueOf(rice.getText().toString()),
                                 Integer.parseInt(egg.getText().toString()));
                         int beefPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
-                        int fishPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
-                        int porkPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
-                        int dairyPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
-                        int cheesePercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
-                        int ricePercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
-                        int eggPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int fishPercentage = calculateFishPercentage(Float.valueOf(fish.getText().toString()));
+                        int porkPercentage = calculatePorkPercentage(Float.valueOf(pork.getText().toString()));
+                        int dairyPercentage = calculateDairyPercentage(Float.valueOf(dairy.getText().toString()));
+                        int cheesePercentage = calculateCheesePercentage(Float.valueOf(cheese.getText().toString()));
+                        int ricePercentage = calculateRicePercentage(Float.valueOf(rice.getText().toString()));
+                        int eggPercentage = calculateEggPercentage(Integer.parseInt(egg.getText().toString()));
                         double carbon = makeRequest(onRadioButtonClicked(view), lowCarbon.isChecked(),
                                 beefPercentage, fishPercentage, porkPercentage, dairyPercentage,
                                 cheesePercentage, ricePercentage, eggPercentage);

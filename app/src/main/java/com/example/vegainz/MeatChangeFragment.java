@@ -2,15 +2,16 @@ package com.example.vegainz;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,14 +24,13 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DietChangeFragment#newInstance} factory method to
+ * Use the {@link MeatChangeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DietChangeFragment extends Fragment {
+public class MeatChangeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,8 +42,7 @@ public class DietChangeFragment extends Fragment {
     private String mParam2;
     LineChart mpLineChart;
 
-
-    public DietChangeFragment() {
+    public MeatChangeFragment() {
         // Required empty public constructor
     }
 
@@ -53,11 +52,11 @@ public class DietChangeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DietChangeFragment.
+     * @return A new instance of fragment MeatChangeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DietChangeFragment newInstance(String param1, String param2) {
-        DietChangeFragment fragment = new DietChangeFragment();
+    public static MeatChangeFragment newInstance(String param1, String param2) {
+        MeatChangeFragment fragment = new MeatChangeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,53 +77,54 @@ public class DietChangeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diet_change, container, false);
+        return inflater.inflate(R.layout.fragment_meat_change, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
 
-        Button DCHome = view.findViewById(R.id.buttonDCtoHome);
-        Button DCRefresh = view.findViewById(R.id.buttonDCRefresh);
+        Button MeatChangeHome = view.findViewById(R.id.buttonMeatChangetoHome);
+        Button MeatChangeRefresh = view.findViewById(R.id.buttonMeatChangeRefresh);
 
-        createDietGraph(view);
+        createMeatGraph(view);
 
-        DCRefresh.setOnClickListener(new View.OnClickListener() {
+        MeatChangeRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDietGraph(view);
+                createMeatGraph(view);
 
             }
         });
 
-        DCHome.setOnClickListener(new View.OnClickListener() {
+        MeatChangeHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.action_dietChangeFragment_to_homeFragment);
+                navController.navigate(R.id.action_meatChangeFragment_to_homeFragment);
             }
         });
     }
 
-    private ArrayList<com.github.mikephil.charting.data.Entry> dataValues2() throws ParseException {
+    private ArrayList<com.github.mikephil.charting.data.Entry> dataValues3() throws ParseException {
         EntryController entryController = new EntryController();
-        entryController.getCO2Entries();
-        ArrayList<com.github.mikephil.charting.data.Entry> dataVals2 = entryController.createCO2GraphEntries();
+        entryController.getDietEntries();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataVals3 = entryController.createMeatGraphEntries();
 
-        return dataVals2;
+        return dataVals3;
     }
 
-    private void  createDietGraph( View view){
+    private void  createMeatGraph( View view){
 
-        mpLineChart = view.findViewById(R.id.lineChartDC);
+        mpLineChart = view.findViewById(R.id.lineChartMeatChange);
         XAxis xAxis = mpLineChart.getXAxis();
         YAxis yAxisLeft = mpLineChart.getAxisLeft();
         YAxis yAxisRight = mpLineChart.getAxisRight();
 
         LineDataSet lineDataSet1 = null;
         try {
-            lineDataSet1 = new LineDataSet(dataValues2(), "Mass per day");
+            lineDataSet1 = new LineDataSet(dataValues3(), "Mass per day");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -140,9 +140,9 @@ public class DietChangeFragment extends Fragment {
         xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        xAxis.setValueFormatter(new MyDCAxisValueFormatter());
+        xAxis.setValueFormatter(new MyMeatChangeAxisValueFormatter());
         try {
-            xAxis.setLabelCount(dataValues2().size(),true);
+            xAxis.setLabelCount(dataValues3().size(),true);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -154,13 +154,15 @@ public class DietChangeFragment extends Fragment {
     }
 
 
-    private class MyDCAxisValueFormatter extends ValueFormatter {
 
-        @Override
-        public String getFormattedValue(float value) {
-            SimpleDateFormat sdf = new SimpleDateFormat("ww");
 
-            return sdf.format(value);
-        }
+    private class MyMeatChangeAxisValueFormatter extends ValueFormatter {
+
+    @Override
+    public String getFormattedValue(float value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("ww");
+
+        return sdf.format(value);
+    }
     }
 }

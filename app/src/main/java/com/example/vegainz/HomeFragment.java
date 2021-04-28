@@ -73,11 +73,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
-        EntryController entryController = new EntryController();
-
-        if (entryController.getMassList().isEmpty()) {
-            entryController.getMassEntries();
-        }
 
         Button DI = view.findViewById(R.id.buttonDietInput);
         DI.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +103,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_homeFragment_to_massChangeFragment);
+            }
+        });
+
+        Button meatChange = view.findViewById(R.id.buttonMeatChange);
+        meatChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_homeFragment_to_meatChangeFragment);
             }
         });
 

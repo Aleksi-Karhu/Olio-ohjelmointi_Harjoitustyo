@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MassChangeFragment">
+    tools:context=".MeatChangeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="733dp">
 
         <Button
-            android:id="@+id/buttonMCtoHOME"
+            android:id="@+id/buttonMeatChangetoHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back"
@@ -23,16 +24,17 @@
             app:layout_constraintVertical_bias="0.023" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChartMC"
+            android:id="@+id/lineChartMeatChange"
             android:layout_width="match_parent"
             android:layout_height="600dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499" />
 
         <Button
-            android:id="@+id/buttonMCRefresh"
+            android:id="@+id/buttonMeatChangeRefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Refresh"
@@ -42,7 +44,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.023" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

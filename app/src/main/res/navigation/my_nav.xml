@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_meatChangeFragment"
+            app:destination="@id/meatChangeFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -69,6 +72,15 @@
         tools:layout="@layout/fragment_mass_change" >
         <action
             android:id="@+id/action_massChangeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/meatChangeFragment"
+        android:name="com.example.vegainz.MeatChangeFragment"
+        android:label="fragment_meat_change"
+        tools:layout="@layout/fragment_meat_change" >
+        <action
+            android:id="@+id/action_meatChangeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

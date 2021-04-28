@@ -84,41 +84,18 @@ public class MassChangeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
 
-        mpLineChart = view.findViewById(R.id.lineChartMC);
         Button MCHome = view.findViewById(R.id.buttonMCtoHOME);
+        Button MCRefresh = view.findViewById(R.id.buttonMCRefresh);
 
-        XAxis xAxis = mpLineChart.getXAxis();
-        YAxis yAxisLeft = mpLineChart.getAxisLeft();
-        YAxis yAxisRight = mpLineChart.getAxisRight();
+        createMassGraph(view);
 
-        LineDataSet lineDataSet1 = null;
-        try {
-            lineDataSet1 = new LineDataSet(dataValues1(), "Data Set 1");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        MCRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createMassGraph(view);
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(lineDataSet1);
-
-        lineDataSet1.setColor(Color.RED);
-        lineDataSet1.setCircleColor(Color.RED);
-
-        xAxis.setValueFormatter(new MyAxisValueFormatter());
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-
-
-        xAxis.setValueFormatter(new MyAxisValueFormatter());
-        try {
-            xAxis.setLabelCount(dataValues1().size(),true);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        LineData data = new LineData(dataSets);
-        mpLineChart.setData(data);
-        mpLineChart.invalidate();
+            }
+        });
 
         MCHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,18 +109,54 @@ public class MassChangeFragment extends Fragment {
     private ArrayList<com.github.mikephil.charting.data.Entry> dataValues1() throws ParseException {
         EntryController entryController = new EntryController();
         entryController.getMassEntries();
-        ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.getMassEntry();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.createMassGraphEntries();
 
         return dataVals;
     }
 
+    private void  createMassGraph( View view){
 
+        mpLineChart = view.findViewById(R.id.lineChartMC);
+        XAxis xAxis = mpLineChart.getXAxis();
+        YAxis yAxisLeft = mpLineChart.getAxisLeft();
+        YAxis yAxisRight = mpLineChart.getAxisRight();
+
+        LineDataSet lineDataSet1 = null;
+        try {
+            lineDataSet1 = new LineDataSet(dataValues1(), "Mass per day");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(lineDataSet1);
+
+        lineDataSet1.setColor(Color.RED);
+        lineDataSet1.setCircleColor(Color.RED);
+
+
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        xAxis.setValueFormatter(new MyAxisValueFormatter());
+        try {
+            xAxis.setLabelCount(dataValues1().size(),true);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        LineData data = new LineData(dataSets);
+        mpLineChart.setData(data);
+        mpLineChart.notifyDataSetChanged();
+        mpLineChart.invalidate();
+    }
 
     private class MyAxisValueFormatter extends ValueFormatter {
 
             @Override
             public String getFormattedValue(float value) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
 
                 return sdf.format(value);
             }
