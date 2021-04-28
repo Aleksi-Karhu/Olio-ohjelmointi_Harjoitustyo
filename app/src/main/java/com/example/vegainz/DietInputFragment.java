@@ -3,6 +3,8 @@ package com.example.vegainz;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,20 @@ import android.widget.RadioGroup;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 import java.util.Locale;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,6 +118,12 @@ public class DietInputFragment extends Fragment {
         cheese = view.findViewById(R.id.cheeseInput);
         radioGroup = view.findViewById(R.id.dietRadioGroup);
 
+        StrictMode.ThreadPolicy thread_policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(thread_policy);
+
+
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,8 +133,26 @@ public class DietInputFragment extends Fragment {
                     System.out.println("false");
                 }else {
                     try {
-                        entryController.createFoodCalculationEntry(date.getText().toString(), onRadioButtonClicked(view), lowCarbon.isChecked(), Float.valueOf(beef.getText().toString()), Float.valueOf(fish.getText().toString()), Float.valueOf(pork.getText().toString()), Float.valueOf(dairy.getText().toString()),
-                                 Float.valueOf(cheese.getText().toString()), Float.valueOf(rice.getText().toString()), Integer.parseInt(egg.getText().toString()));
+                        entryController.createFoodCalculationEntry(date.getText().toString(),
+                                onRadioButtonClicked(view), lowCarbon.isChecked(),
+                                Float.valueOf(beef.getText().toString()),
+                                Float.valueOf(fish.getText().toString()),
+                                Float.valueOf(pork.getText().toString()),
+                                Float.valueOf(dairy.getText().toString()),
+                                Float.valueOf(cheese.getText().toString()),
+                                Float.valueOf(rice.getText().toString()),
+                                Integer.parseInt(egg.getText().toString()));
+                        int beefPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int fishPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int porkPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int dairyPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int cheesePercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int ricePercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        int eggPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
+                        double carbon = makeRequest(onRadioButtonClicked(view), lowCarbon.isChecked(),
+                                beefPercentage, fishPercentage, porkPercentage, dairyPercentage,
+                                cheesePercentage, ricePercentage, eggPercentage);
+                        entryController.createCOEntry(date.getText().toString(), carbon);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -155,5 +191,133 @@ public class DietInputFragment extends Fragment {
         }
         return diet;
     }
+
+    public int calculateBeefPercentage(float beef){
+        int percentage;
+        double average = 1.4;
+        percentage = (int) Math.round((beef / average)*100);
+
+        if(percentage >= 200) {
+            percentage = 200;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+    public int calculateFishPercentage(float fish){
+        int percentage;
+        double average = 0.6;
+        percentage = (int) Math.round((fish / average)*100);
+
+        if(percentage >= 200) {
+            percentage = 200;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+    public int calculatePorkPercentage(float pork){
+        int percentage;
+        double average = 1.0;
+        percentage = (int) Math.round((pork / average)*100);
+
+        if(percentage >= 200) {
+            percentage = 200;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+    public int calculateCheesePercentage(float cheese){
+        int percentage;
+        double average = 0.3;
+        percentage = (int) Math.round((cheese / average)*100);
+
+        if(percentage >= 200) {
+            percentage = 200;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+    public int calculateDairyPercentage(float dairy){
+        int percentage;
+        double average = 3.8;
+        percentage = (int) Math.round((dairy / average)*100);
+
+        if(percentage >= 200) {
+            percentage = 200;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+    public int calculateEggPercentage(int egg){
+        int percentage;
+        double average = 3;
+        percentage = (int) Math.round((egg / average)*100);
+
+        if(percentage >= 1100) {
+            percentage = 1100;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+    public int calculateRicePercentage(float rice){
+        int percentage;
+        double average = 0.09;
+        percentage = (int) Math.round((rice / average)*100);
+
+        if(percentage >= 200) {
+            percentage = 200;
+            return percentage;
+        } else {
+            return percentage;
+        }
+    }
+
+
+
+    public double makeRequest(String diet, boolean lowCarbonPreference, int beef, int pork, int fish, int dairy, int cheese, int rice, int egg) {
+        double carbon = 0;
+        try {
+            String api_url = "https://ilmastodieetti.ymparisto.fi/ilmastodieetti/calculatorapi/v1/FoodCalculator?" +
+                    "query.diet=" + diet + "+&query.lowCarbonPreference=" + lowCarbonPreference +
+                    "+&query.beefLevel="+beef+"+&query.fishLevel="+fish+"+&query.porkPoultryLevel="+pork+
+                    "+&query.dairyLevel="+dairy+"+&query.cheeseLevel="+cheese+"+&query.riceLevel="+rice+
+                    "+&query.eggLevel="+egg;
+
+            URL url = new URL(api_url);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            InputStream in = new BufferedInputStream(con.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String response;
+
+            response = br.readLine();
+            final JSONObject calculation = new JSONObject(response);
+            carbon = calculation.getDouble("Total");
+
+            in.close();
+            br.close();
+
+            int status = con.getResponseCode();
+            System.out.println(status);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return carbon;
+    }
+
 
 }

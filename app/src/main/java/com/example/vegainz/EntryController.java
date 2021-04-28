@@ -1,5 +1,6 @@
 package com.example.vegainz;
 
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -11,6 +12,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +31,12 @@ public class EntryController {
 
     private static final String DATE_KEY = "date";
     private static final String MASS_KEY = "mass";
-    private static final String TAG = "mass";
+    private static final String MASS_CREATE_TAG = "Mass create";
+    private static final String MASS_FETCH_TAG = "Mass fetch";
+    private static final String DIET_CREATE_TAG = "Diet create";
+    private static final String DIET_FETCH_TAG = "Diet fetch";
+    private static final String CARBON_CREATE_TAG = "Carbon create";
+    private static final String CARBON_FETCH_TAG = "Carbon fetch";
 
     private DocumentReference mDocRef = FirebaseFirestore.getInstance().document("massEntries/userMass");
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -38,12 +50,12 @@ public class EntryController {
         massRef.add(ME).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "Saving entry successful ");
+                Log.d(MASS_CREATE_TAG, "Saving entry successful ");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Saving entry failed");
+                Log.d(MASS_CREATE_TAG, "Saving entry failed");
             }
         });
 
@@ -55,8 +67,6 @@ public class EntryController {
         Map<String, Object> saveMass = new HashMap<String, Object>();
         //saveMass.put(DATE_KEY, date);
         //saveMass.put(MASS_KEY, mass);
-        CO2Request request = new CO2Request();
-        request.getData();
 
         entries.add(new MassEntry(date,mass));
     }
@@ -77,7 +87,7 @@ public class EntryController {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Failure fetching data");
+                Log.d(MASS_FETCH_TAG, "Failure fetching data");
             }
         });
     }
@@ -94,12 +104,12 @@ public class EntryController {
         dietRef.add(FCE).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "Saving entry successful ");
+                Log.d(DIET_CREATE_TAG, "Saving entry successful ");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Saving entry failed");
+                Log.d(DIET_CREATE_TAG, "Saving entry failed");
             }
         });
 
@@ -129,19 +139,29 @@ public class EntryController {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Failure fetching data");
+                Log.d(DIET_FETCH_TAG, "Failure fetching data");
             }
         });
     }
 
 
-    public void createCOEntry(String date, float carbon) throws ParseException {
+    public void createCOEntry(String date, double carbon) throws ParseException {
 
+        CO2Entry CE = new CO2Entry(date, carbon);
+
+        carbonRef.add(CE).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d(DIET_CREATE_TAG, "Saving entry successful ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(DIET_CREATE_TAG, "Saving entry failed");
+            }
+        });
 
     }
-
-
-
 
     public ArrayList<com.github.mikephil.charting.data.Entry> getMassEntry() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");

@@ -2,19 +2,19 @@ package com.example.vegainz;
 
 public class CO2Entry extends Entry {
 
-    float carbon;
+    double carbon;
 
     public CO2Entry() {
 
     }
 
-    public CO2Entry(String date, float carbon) {
+    public CO2Entry(String date, double carbon) {
         super(date);
         this.carbon = carbon;
 
     }
 
-    public float getCarbon() {
+    public double getCarbon() {
         return carbon;
     }
 }
