@@ -48,8 +48,7 @@ public class DietInputFragment extends Fragment {
     EditText egg;
     EditText dairy;
     EditText cheese;
-    RadioGroup radioGroup;
-    RadioButton radioButton;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -116,7 +115,6 @@ public class DietInputFragment extends Fragment {
         egg = view.findViewById(R.id.eggInput);
         dairy = view.findViewById(R.id.dairyInput);
         cheese = view.findViewById(R.id.cheeseInput);
-        radioGroup = view.findViewById(R.id.dietRadioGroup);
 
         StrictMode.ThreadPolicy thread_policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(thread_policy);
@@ -129,7 +127,6 @@ public class DietInputFragment extends Fragment {
             public void onClick(View v) {
                 if (date.getText().toString().isEmpty() || beef.getText().toString().isEmpty() || fish.getText().toString().isEmpty() || pork.getText().toString().isEmpty() || rice.getText().toString().isEmpty() ||
                         egg.getText().toString().isEmpty() || dairy.getText().toString().isEmpty() || cheese.getText().toString().isEmpty() || validator.isValid(date.getText().toString()) == false){
-                    // lisää popup ilmoitus puuttuvista arvoista. sama massinputtiin
                     System.out.println("false");
                 }else {
                     try {

@@ -124,7 +124,7 @@ public class MeatChangeFragment extends Fragment {
 
         LineDataSet lineDataSet1 = null;
         try {
-            lineDataSet1 = new LineDataSet(dataValuesMeat(), "Mass per day");
+            lineDataSet1 = new LineDataSet(dataValuesMeat(), "Meat comsumption per week");
         } catch (ParseException e) {
             e.printStackTrace();
         }

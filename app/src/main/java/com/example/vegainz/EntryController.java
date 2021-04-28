@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 public class EntryController {
     private final static ArrayList<Entry> foodList = new ArrayList();
     private final static ArrayList<Entry> massList = new ArrayList();
-    private final static ArrayList<CO2Entry> carbonList = new ArrayList();
+    private final static ArrayList<Entry> carbonList = new ArrayList();
 
     private static final String DATE_KEY = "date";
     private static final String MASS_KEY = "mass";
@@ -50,8 +50,8 @@ public class EntryController {
     private CollectionReference carbonRef = db.collection("carbonEntries");
 
     public void createMassEntry(String date, float mass) throws ParseException {
+        /*This method creates mass entries and sent them to Firestore database*/
         MassEntry ME = new MassEntry(date, mass);
-
         massRef.add(ME).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -68,6 +68,7 @@ public class EntryController {
 
 
     public void getMassEntries() {
+        /*This method gets mass entries from Firestore database and saves them to arraylist*/
         massRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -78,7 +79,6 @@ public class EntryController {
                     String date = ME.getDate();
                     float mass = ME.getMass();
                     massList.add(new MassEntry(date,mass));
-                    System.out.println("Date: "+ date + "\nMass: "+ mass + "\n\n");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -90,6 +90,7 @@ public class EntryController {
     }
 
     public void getCO2Entries() {
+        /*This method gets CO2 entries from Firestore database and saves them to arraylist*/
         carbonRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -100,7 +101,6 @@ public class EntryController {
                     String date = CE.getDate();
                     double carbon = CE.getCarbon();
                     carbonList.add(new CO2Entry(date,carbon));
-                    System.out.println("Date: "+ date + "\nCarbon: "+ carbon + "\n\n");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -116,7 +116,7 @@ public class EntryController {
     public void createFoodCalculationEntry(String date, String diet, boolean lowCarbonPreference,
                                            float beef, float fish, float pork, float dairy,
                                            float cheese, float rice, int eggs) throws ParseException {
-
+        /*This method creates foodcalculation entries and sent them to Firestore database*/
         FoodCalculationEntry FCE = new FoodCalculationEntry(date, diet, lowCarbonPreference, beef,
                 fish, pork, dairy, cheese, rice, eggs);
 
@@ -135,6 +135,7 @@ public class EntryController {
     }
 
     public void getDietEntries() {
+        /*This method gets foodcalculation entries from Firestore database and saves them to arraylist*/
         dietRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -153,7 +154,6 @@ public class EntryController {
                     float rice = FCE.getRice();
                     int eggs = FCE.getEggs();
                     foodList.add(new FoodCalculationEntry( date, diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs));
-                    System.out.println("Date: "+ date + "\nBeef: "+ beef + "\n\n");
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -166,7 +166,7 @@ public class EntryController {
 
 
     public void createCOEntry(String date, double carbon) throws ParseException {
-
+        /*This method creates CO2 entries and sent them to Firestore database*/
         CO2Entry CE = new CO2Entry(date, carbon);
 
         carbonRef.add(CE).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -184,60 +184,65 @@ public class EntryController {
     }
 
     public ArrayList<com.github.mikephil.charting.data.Entry> createMassGraphEntries() throws ParseException {
+        /*This method sorts massList by date and uses it to create Arraylist<com.github.mikephil.charting.data.Entry> to use with MPAndroidChart*/
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
 
         if(massList != null){
+            //Sorts massList by date
             Collections.sort(massList, Comparator.comparing(Entry::getTimeDate));
             for(int i = 0;i<massList.size();i++) {
 
                 temp = massList.get(i);
                 tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime()+3600000,((MassEntry)temp).mass));
-                System.out.println("Date: "+temp.date+" Mass: "+ ((MassEntry) temp).mass);
             }
         }else{
-            System.out.println("Null");
+            System.out.println("404 ERROR MASS ENTRIES NOT FOUND");
         }
         return tempList;
     }
 
     public ArrayList<com.github.mikephil.charting.data.Entry> createCO2GraphEntries() throws ParseException {
+        /*This method sorts carbonList by date and uses it to create Arraylist<com.github.mikephil.charting.data.Entry> to use with MPAndroidChart*/
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
 
         if(carbonList != null){
+            //Sorts carbonList by date
             Collections.sort(carbonList, Comparator.comparing(Entry::getTimeDate));
 
             for(int i = 0;i<carbonList.size();i++) {
 
                 temp = carbonList.get(i);
+                /*1 hour in milliseconds is added to temp.date to fight rounding errors caused by float*/
                 tempList.add(new com.github.mikephil.charting.data.Entry((float)(sdf.parse(temp.date).getTime()+3600000), (float) (((CO2Entry)temp).carbon)));
-                System.out.println("Date: "+temp.date +" GetTime: "+sdf.parse(temp.date).getTime()+" Carbon: "+ ((CO2Entry) temp).carbon);
             }
         }else{
-            System.out.println("Null");
+            System.out.println("404 ERROR CO2 ENTRIES NOT FOUND");
         }
         return tempList;
     }
 
     public ArrayList<com.github.mikephil.charting.data.Entry> createMeatGraphEntries() throws ParseException {
+        /*This method sorts foodList by date and uses it to create Arraylist<com.github.mikephil.charting.data.Entry> to use with MPAndroidChart*/
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
-
+        float meatComsumption;
         if(foodList != null){
+            //Sorts foodList by date
             Collections.sort(foodList, Comparator.comparing(Entry::getTimeDate));
 
             for(int i = 0;i<foodList.size();i++) {
 
                 temp = foodList.get(i);
-                tempList.add(new com.github.mikephil.charting.data.Entry((float)(sdf.parse(temp.date).getTime()+3600000), (float) (((FoodCalculationEntry)temp).beef+((FoodCalculationEntry)temp).pork)));
-                System.out.println("Date: "+temp.date +" GetTime: "+sdf.parse(temp.date).getTime()+" Total meat: "+  (((FoodCalculationEntry)temp).beef+((FoodCalculationEntry)temp).pork));
+                meatComsumption = (((FoodCalculationEntry)temp).beef+((FoodCalculationEntry)temp).pork);
+                tempList.add(new com.github.mikephil.charting.data.Entry((float)(sdf.parse(temp.date).getTime()+3600000), (float) meatComsumption));
             }
         }else{
-            System.out.println("Null");
+            System.out.println("404 ERROR FOODCALCUTALITON ENTRIES NOT FOUND");
         }
         return tempList;
     }

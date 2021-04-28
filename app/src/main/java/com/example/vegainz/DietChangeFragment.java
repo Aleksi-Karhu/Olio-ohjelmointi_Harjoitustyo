@@ -124,7 +124,7 @@ public class DietChangeFragment extends Fragment {
 
         LineDataSet lineDataSet1 = null;
         try {
-            lineDataSet1 = new LineDataSet(dataValuesCO2(), "Mass per day");
+            lineDataSet1 = new LineDataSet(dataValuesCO2(), "CO2 emissions per week");
         } catch (ParseException e) {
             e.printStackTrace();
         }
