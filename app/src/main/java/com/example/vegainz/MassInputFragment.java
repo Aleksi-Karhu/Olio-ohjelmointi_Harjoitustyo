@@ -82,6 +82,7 @@ public class MassInputFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
         final EntryController entryController = new EntryController();
+        // Initializing DateValidator to dd.MM.yyyy format
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH).withResolverStyle(ResolverStyle.STRICT);
         final DateValidator validator = new DateValidatorUsingDateTimeFormatter(dateFormatter);
 

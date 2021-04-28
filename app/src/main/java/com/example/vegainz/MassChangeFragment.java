@@ -153,7 +153,7 @@ public class MassChangeFragment extends Fragment {
     }
 
     private class MyMassAxisValueFormatter extends ValueFormatter {
-
+        // Formatting x-axel in graph to show day and month
             @Override
             public String getFormattedValue(float value) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");

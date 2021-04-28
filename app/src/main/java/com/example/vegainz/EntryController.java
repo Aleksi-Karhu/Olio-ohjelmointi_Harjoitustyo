@@ -195,6 +195,7 @@ public class EntryController {
             for(int i = 0;i<massList.size();i++) {
 
                 temp = massList.get(i);
+                /*1 hour in milliseconds is added to temp.date to fight rounding errors caused by float*/
                 tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime()+3600000,((MassEntry)temp).mass));
             }
         }else{
@@ -216,7 +217,6 @@ public class EntryController {
             for(int i = 0;i<carbonList.size();i++) {
 
                 temp = carbonList.get(i);
-                /*1 hour in milliseconds is added to temp.date to fight rounding errors caused by float*/
                 tempList.add(new com.github.mikephil.charting.data.Entry((float)(sdf.parse(temp.date).getTime()+3600000), (float) (((CO2Entry)temp).carbon)));
             }
         }else{

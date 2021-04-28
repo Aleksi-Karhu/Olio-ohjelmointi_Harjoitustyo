@@ -157,7 +157,7 @@ public class MeatChangeFragment extends Fragment {
 
 
     private class MyMeatChangeAxisValueFormatter extends ValueFormatter {
-
+    // Formatting x-axel in graph to show number of week
     @Override
     public String getFormattedValue(float value) {
         SimpleDateFormat sdf = new SimpleDateFormat("ww");
