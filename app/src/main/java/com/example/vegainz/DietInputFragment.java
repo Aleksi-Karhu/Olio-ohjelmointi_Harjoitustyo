@@ -116,12 +116,13 @@ public class DietInputFragment extends Fragment {
         dairy = view.findViewById(R.id.dairyInput);
         cheese = view.findViewById(R.id.cheeseInput);
 
+        // Values for http-request
         StrictMode.ThreadPolicy thread_policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(thread_policy);
 
 
 
-
+        // Listener for the submit-button
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +131,7 @@ public class DietInputFragment extends Fragment {
                     System.out.println("false");
                 }else {
                     try {
+                        //Creates a new FoodCalculationEntry, passes the user submitted data to the EntryController
                         entryController.createFoodCalculationEntry(date.getText().toString(),
                                 onRadioButtonClicked(view), lowCarbon.isChecked(),
                                 Float.valueOf(beef.getText().toString()),
@@ -139,6 +141,8 @@ public class DietInputFragment extends Fragment {
                                 Float.valueOf(cheese.getText().toString()),
                                 Float.valueOf(rice.getText().toString()),
                                 Integer.parseInt(egg.getText().toString()));
+
+                        // Creates percentages out of kg
                         int beefPercentage = calculateBeefPercentage(Float.valueOf(beef.getText().toString()));
                         int fishPercentage = calculateFishPercentage(Float.valueOf(fish.getText().toString()));
                         int porkPercentage = calculatePorkPercentage(Float.valueOf(pork.getText().toString()));
@@ -146,9 +150,13 @@ public class DietInputFragment extends Fragment {
                         int cheesePercentage = calculateCheesePercentage(Float.valueOf(cheese.getText().toString()));
                         int ricePercentage = calculateRicePercentage(Float.valueOf(rice.getText().toString()));
                         int eggPercentage = calculateEggPercentage(Integer.parseInt(egg.getText().toString()));
+
+                        // Makes request to API, takes in the percentages and returns a double value of the total carbon emissions
                         double carbon = makeRequest(onRadioButtonClicked(view), lowCarbon.isChecked(),
                                 beefPercentage, fishPercentage, porkPercentage, dairyPercentage,
                                 cheesePercentage, ricePercentage, eggPercentage);
+
+                        // Creates a new CO2Entry
                         entryController.createCOEntry(date.getText().toString(), carbon);
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -170,6 +178,7 @@ public class DietInputFragment extends Fragment {
 
     }
 
+    // Checks which radiobutton is selected
     public String onRadioButtonClicked(View view) {
         RadioButton omni = view.findViewById(R.id.omnivoreButton);
         RadioButton vegan = view.findViewById(R.id.veganButton);
@@ -189,6 +198,7 @@ public class DietInputFragment extends Fragment {
         return diet;
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 200 (Required by API)
     public int calculateBeefPercentage(float beef){
         int percentage;
         double average = 1.4;
@@ -202,6 +212,7 @@ public class DietInputFragment extends Fragment {
         }
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 200 (Required by API)
     public int calculateFishPercentage(float fish){
         int percentage;
         double average = 0.6;
@@ -215,6 +226,7 @@ public class DietInputFragment extends Fragment {
         }
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 200 (Required by API)
     public int calculatePorkPercentage(float pork){
         int percentage;
         double average = 1.0;
@@ -228,6 +240,7 @@ public class DietInputFragment extends Fragment {
         }
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 200 (Required by API)
     public int calculateCheesePercentage(float cheese){
         int percentage;
         double average = 0.3;
@@ -241,6 +254,7 @@ public class DietInputFragment extends Fragment {
         }
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 200 (Required by API)
     public int calculateDairyPercentage(float dairy){
         int percentage;
         double average = 3.8;
@@ -254,6 +268,7 @@ public class DietInputFragment extends Fragment {
         }
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 1100 (Required by API)
     public int calculateEggPercentage(int egg){
         int percentage;
         double average = 3;
@@ -267,6 +282,7 @@ public class DietInputFragment extends Fragment {
         }
     }
 
+    // Takes the user submitted kg amount and converts it to a percentage of the Finnish weekly average. Limits the maximum to 200 (Required by API)
     public int calculateRicePercentage(float rice){
         int percentage;
         double average = 0.09;
@@ -281,7 +297,7 @@ public class DietInputFragment extends Fragment {
     }
 
 
-
+    /* Makes a http-request to the API, takes in the values provided by the user, returns the carbon amount from the API*/
     public double makeRequest(String diet, boolean lowCarbonPreference, int beef, int pork, int fish, int dairy, int cheese, int rice, int egg) {
         double carbon = 0;
         try {
@@ -291,10 +307,12 @@ public class DietInputFragment extends Fragment {
                     "+&query.dairyLevel="+dairy+"+&query.cheeseLevel="+cheese+"+&query.riceLevel="+rice+
                     "+&query.eggLevel="+egg;
 
+            // Make a new GET-connection
             URL url = new URL(api_url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
+            // Reads the response and creates a JSON object from it. Carbon amount can be extracted from the value of "Total"
             InputStream in = new BufferedInputStream(con.getInputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String response;
@@ -309,7 +327,7 @@ public class DietInputFragment extends Fragment {
             int status = con.getResponseCode();
             System.out.println(status);
 
-
+            // Catch possible errors and return the carbon amount
         } catch (Exception e) {
             e.printStackTrace();
         }
