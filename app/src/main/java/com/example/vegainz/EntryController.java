@@ -21,6 +21,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ import androidx.annotation.NonNull;
 
 public class EntryController {
     private final static ArrayList<Entry> entries = new ArrayList();
+    private final static ArrayList<Entry> massList = new ArrayList();
 
     private static final String DATE_KEY = "date";
     private static final String MASS_KEY = "mass";
@@ -61,7 +64,9 @@ public class EntryController {
 
     }
 
-
+    public ArrayList<Entry> getMassList(){
+        return massList;
+    }
 
     public void createMassEntry(String date, float mass) throws ParseException {
         Map<String, Object> saveMass = new HashMap<String, Object>();
@@ -75,12 +80,13 @@ public class EntryController {
         massRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                massList.clear();
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     MassEntry ME = documentSnapshot.toObject(MassEntry.class);
 
                     String date = ME.getDate();
                     float mass = ME.getMass();
-
+                    massList.add(new MassEntry(date,mass));
                     System.out.println("Date: "+ date + "\nMass: "+ mass + "\n\n");
                 }
             }
@@ -164,16 +170,21 @@ public class EntryController {
     }
 
     public ArrayList<com.github.mikephil.charting.data.Entry> getMassEntry() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
-        if(entries != null){
-            for(int i = 0;i<entries.size();i++) {
-                temp = entries.get(i);
-                tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime(),((MassEntry)temp).mass));
+
+        if(massList != null){
+            Collections.sort(massList, Comparator.comparing(Entry::getDate));
+            for(int i = 0;i<massList.size();i++) {
+
+                temp = massList.get(i);
+                tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime()+3600000,((MassEntry)temp).mass));
                 System.out.println("Date: "+temp.date+" Mass: "+ ((MassEntry) temp).mass);
-                }
             }
+        }else{
+            System.out.println("Null");
+        }
         return tempList;
     }
 

@@ -1,5 +1,6 @@
 package com.example.vegainz;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -96,8 +97,17 @@ public class MassChangeFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet1);
+
+        lineDataSet1.setColor(Color.RED);
+        lineDataSet1.setCircleColor(Color.RED);
+
+        xAxis.setValueFormatter(new MyAxisValueFormatter());
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+
 
         xAxis.setValueFormatter(new MyAxisValueFormatter());
         try {
@@ -121,10 +131,12 @@ public class MassChangeFragment extends Fragment {
 
     private ArrayList<com.github.mikephil.charting.data.Entry> dataValues1() throws ParseException {
         EntryController entryController = new EntryController();
+        entryController.getMassEntries();
         ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.getMassEntry();
 
         return dataVals;
     }
+
 
 
     private class MyAxisValueFormatter extends ValueFormatter {

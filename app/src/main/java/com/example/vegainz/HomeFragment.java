@@ -73,6 +73,11 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
+        EntryController entryController = new EntryController();
+
+        if (entryController.getMassList().isEmpty()) {
+            entryController.getMassEntries();
+        }
 
         Button DI = view.findViewById(R.id.buttonDietInput);
         DI.setOnClickListener(new View.OnClickListener() {
