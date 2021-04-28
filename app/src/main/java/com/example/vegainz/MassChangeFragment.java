@@ -121,7 +121,7 @@ public class MassChangeFragment extends Fragment {
 
     private ArrayList<com.github.mikephil.charting.data.Entry> dataValues1() throws ParseException {
         EntryController entryController = new EntryController();
-        ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.getMassEntries();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.getMassEntry();
 
         return dataVals;
     }

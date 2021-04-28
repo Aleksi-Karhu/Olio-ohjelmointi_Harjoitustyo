@@ -8,6 +8,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,9 +20,7 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 
 public class EntryController {
-    private final static ArrayList<Entry> massEntries = new ArrayList();
-    private final static ArrayList<Entry> c0Entries = new ArrayList();
-    private final static ArrayList<Entry> foodCalculationEntries = new ArrayList();
+    private final static ArrayList<Entry> entries = new ArrayList();
 
     private static final String DATE_KEY = "date";
     private static final String MASS_KEY = "mass";
@@ -31,14 +31,19 @@ public class EntryController {
     private CollectionReference massRef = db.collection("massEntries");
 
 
-
     public void makeMassEntry(String date, float mass) throws ParseException {
-        MassEntry massentry = new MassEntry(date, mass);
+        MassEntry ME = new MassEntry(date, mass);
 
-        massRef.add(massentry).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+        massRef.add(ME).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-
+                Log.d(TAG, "Saving entry successful ");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Saving entry failed");
             }
         });
 
@@ -48,9 +53,12 @@ public class EntryController {
 
     public void createMassEntry(String date, float mass) throws ParseException {
         Map<String, Object> saveMass = new HashMap<String, Object>();
-        saveMass.put(DATE_KEY, date);
-        saveMass.put(MASS_KEY, mass);
-        mDocRef.set(saveMass).addOnSuccessListener(new OnSuccessListener<Void>() {
+        //saveMass.put(DATE_KEY, date);
+        //saveMass.put(MASS_KEY, mass);
+        //CO2Request request = new CO2Request();
+        //request.getData();
+
+        /*mDocRef.set(saveMass).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Saving entry successful ");
@@ -62,17 +70,30 @@ public class EntryController {
             }
         });
 
-        massEntries.add(new MassEntry(date,mass));
+
+*/
+        entries.add(new MassEntry(date,mass));
     }
 
-    public void getMassEntry() {
-        mDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+    public void getMassEntries() {
+        massRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    MassEntry ME = documentSnapshot.toObject(MassEntry.class);
 
+                    String date = ME.getDate();
+                    float mass = ME.getMass();
+
+                    System.out.println("Date: "+ date + "\nMass: "+ mass + "\n\n");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Failure fetching data");
             }
         });
-
     }
 
 
@@ -80,24 +101,26 @@ public class EntryController {
     public void createFoodCalculationEntry(String diet, boolean lowCarbonPreference,
                                            float beef, float fish, float pork, float dairy,
                                            float cheese, float rice, int eggs, String date) throws ParseException {
-        foodCalculationEntries.add(new FoodCalculationEntry(diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs, date));
+        entries.add(new FoodCalculationEntry(diet, lowCarbonPreference, beef, fish, pork, dairy, cheese, rice, eggs, date));
     }
 
-    public void createC0Entry(String date, float co2) throws ParseException {
-        c0Entries.add(new CO2Entry(date,co2));
+    public void createCOEntry(String date, float mass) throws ParseException {
+
+
     }
 
 
 
 
-    public ArrayList<com.github.mikephil.charting.data.Entry> getMassEntries() throws ParseException {
+    public ArrayList<com.github.mikephil.charting.data.Entry> getMassEntry() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         ArrayList<com.github.mikephil.charting.data.Entry> tempList = new ArrayList<>();
         Entry temp;
-        if(massEntries != null){
-            for(int i = 0;i<massEntries.size();i++) {
-                temp = massEntries.get(i);
+        if(entries != null){
+            for(int i = 0;i<entries.size();i++) {
+                temp = entries.get(i);
                 tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime(),((MassEntry)temp).mass));
+                System.out.println("Date: "+temp.date+" Mass: "+ ((MassEntry) temp).mass);
                 }
             }
         return tempList;
