@@ -91,6 +91,7 @@ public class MeatChangeFragment extends Fragment {
 
         createMeatGraph(view);
 
+        // Listener for the refresh-button
         MeatChangeRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +100,7 @@ public class MeatChangeFragment extends Fragment {
             }
         });
 
+        // Listener for the back-button
         MeatChangeHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +110,7 @@ public class MeatChangeFragment extends Fragment {
     }
 
     private ArrayList<com.github.mikephil.charting.data.Entry> dataValuesMeat() throws ParseException {
+        // Gets data values from EntryController
         EntryController entryController = new EntryController();
         entryController.getDietEntries();
         ArrayList<com.github.mikephil.charting.data.Entry> dataValsMeat = entryController.createMeatGraphEntries();
@@ -116,7 +119,7 @@ public class MeatChangeFragment extends Fragment {
     }
 
     private void  createMeatGraph( View view){
-
+        // Creates linechart from values in dataValsMeat list
         mpLineChart = view.findViewById(R.id.lineChartMeatChange);
         XAxis xAxis = mpLineChart.getXAxis();
         YAxis yAxisLeft = mpLineChart.getAxisLeft();

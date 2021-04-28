@@ -88,7 +88,7 @@ public class MassChangeFragment extends Fragment {
         Button MCRefresh = view.findViewById(R.id.buttonMCRefresh);
 
         createMassGraph(view);
-
+        // Listener for the refresh-button
         MCRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +97,7 @@ public class MassChangeFragment extends Fragment {
             }
         });
 
+        // Listener for the back-button
         MCHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +108,7 @@ public class MassChangeFragment extends Fragment {
 
 
     private ArrayList<com.github.mikephil.charting.data.Entry> dataValuesMass() throws ParseException {
+        // Gets data values from EntryController
         EntryController entryController = new EntryController();
         entryController.getMassEntries();
         ArrayList<com.github.mikephil.charting.data.Entry> dataValsMass = entryController.createMassGraphEntries();
@@ -115,7 +117,7 @@ public class MassChangeFragment extends Fragment {
     }
 
     private void  createMassGraph( View view){
-
+        // Creates linechart from values in dataValsMass list
         mpLineChart = view.findViewById(R.id.lineChartMC);
         XAxis xAxis = mpLineChart.getXAxis();
         YAxis yAxisLeft = mpLineChart.getAxisLeft();

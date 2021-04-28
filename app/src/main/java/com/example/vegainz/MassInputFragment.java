@@ -91,9 +91,11 @@ public class MassInputFragment extends Fragment {
         final Button submit = view.findViewById(R.id.buttonMISubmit);
         Button MIHome = view.findViewById(R.id.buttonMItoHome);
 
+        // Listener for the submit-button
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Creates a new MassEntry, passes the user submitted data to the EntryController
                 if (date.getText().toString().isEmpty() || mass.getText().toString().isEmpty() || validator.isValid(date.getText().toString()) == false){
                     System.out.println("false");
                 }else {
@@ -107,7 +109,7 @@ public class MassInputFragment extends Fragment {
         });
 
 
-
+        // Listener for the back-button
         MIHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

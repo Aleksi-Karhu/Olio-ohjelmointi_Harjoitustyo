@@ -90,7 +90,7 @@ public class DietChangeFragment extends Fragment {
         Button DCRefresh = view.findViewById(R.id.buttonDCRefresh);
 
         createCO2Graph(view);
-
+        // Listener for the refresh-button
         DCRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +98,7 @@ public class DietChangeFragment extends Fragment {
 
             }
         });
-
+        // Listener for the back-button
         DCHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +108,7 @@ public class DietChangeFragment extends Fragment {
     }
 
     private ArrayList<com.github.mikephil.charting.data.Entry> dataValuesCO2() throws ParseException {
+        // Gets data values from EntryController
         EntryController entryController = new EntryController();
         entryController.getCO2Entries();
         ArrayList<com.github.mikephil.charting.data.Entry> dataValsCO2 = entryController.createCO2GraphEntries();
@@ -116,7 +117,7 @@ public class DietChangeFragment extends Fragment {
     }
 
     private void  createCO2Graph( View view){
-
+        // Creates linechart from values in dataValsC02 list
         mpLineChart = view.findViewById(R.id.lineChartDC);
         XAxis xAxis = mpLineChart.getXAxis();
         YAxis yAxisLeft = mpLineChart.getAxisLeft();

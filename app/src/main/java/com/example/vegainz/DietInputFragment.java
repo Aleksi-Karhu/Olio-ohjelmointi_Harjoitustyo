@@ -168,6 +168,7 @@ public class DietInputFragment extends Fragment {
 
 
         Button DIHome = view.findViewById(R.id.buttonDItoHome);
+        // Listener for the back-button
         DIHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
