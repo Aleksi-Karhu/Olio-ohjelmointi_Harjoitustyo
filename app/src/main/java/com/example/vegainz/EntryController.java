@@ -97,7 +97,7 @@ public class EntryController {
         if(massEntries != null){
             for(int i = 0;i<massEntries.size();i++) {
                 temp = massEntries.get(i);
-                tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime(),((MassEntry)temp).mass));
+                tempList.add(new com.github.mikephil.charting.data.Entry((float)sdf.parse(temp.date).getTime()+3600000,((MassEntry)temp).mass));
                 }
             }
         return tempList;
