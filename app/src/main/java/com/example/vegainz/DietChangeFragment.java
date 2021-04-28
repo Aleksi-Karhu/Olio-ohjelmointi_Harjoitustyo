@@ -40,7 +40,7 @@ public class DietChangeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    LineChart mpLineChart;
+    private LineChart mpLineChart;
 
 
     public DietChangeFragment() {
@@ -89,12 +89,12 @@ public class DietChangeFragment extends Fragment {
         Button DCHome = view.findViewById(R.id.buttonDCtoHome);
         Button DCRefresh = view.findViewById(R.id.buttonDCRefresh);
 
-        createDietGraph(view);
+        createCO2Graph(view);
 
         DCRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDietGraph(view);
+                createCO2Graph(view);
 
             }
         });
@@ -107,15 +107,15 @@ public class DietChangeFragment extends Fragment {
         });
     }
 
-    private ArrayList<com.github.mikephil.charting.data.Entry> dataValues2() throws ParseException {
+    private ArrayList<com.github.mikephil.charting.data.Entry> dataValuesCO2() throws ParseException {
         EntryController entryController = new EntryController();
         entryController.getCO2Entries();
-        ArrayList<com.github.mikephil.charting.data.Entry> dataVals2 = entryController.createCO2GraphEntries();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataValsCO2 = entryController.createCO2GraphEntries();
 
-        return dataVals2;
+        return dataValsCO2;
     }
 
-    private void  createDietGraph( View view){
+    private void  createCO2Graph( View view){
 
         mpLineChart = view.findViewById(R.id.lineChartDC);
         XAxis xAxis = mpLineChart.getXAxis();
@@ -124,7 +124,7 @@ public class DietChangeFragment extends Fragment {
 
         LineDataSet lineDataSet1 = null;
         try {
-            lineDataSet1 = new LineDataSet(dataValues2(), "Mass per day");
+            lineDataSet1 = new LineDataSet(dataValuesCO2(), "Mass per day");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class DietChangeFragment extends Fragment {
 
         xAxis.setValueFormatter(new MyDCAxisValueFormatter());
         try {
-            xAxis.setLabelCount(dataValues2().size(),true);
+            xAxis.setLabelCount(dataValuesCO2().size(),true);
         } catch (ParseException e) {
             e.printStackTrace();
         }

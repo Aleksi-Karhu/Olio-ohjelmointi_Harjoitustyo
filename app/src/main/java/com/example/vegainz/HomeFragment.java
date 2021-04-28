@@ -114,13 +114,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button LO = view.findViewById(R.id.buttonLogout);
-        LO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navController.navigate(R.id.action_homeFragment_to_loginFragment);
-            }
-        });
     }
     
 }

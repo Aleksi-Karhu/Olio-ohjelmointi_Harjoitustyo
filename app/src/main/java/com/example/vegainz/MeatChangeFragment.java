@@ -40,7 +40,7 @@ public class MeatChangeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    LineChart mpLineChart;
+    private LineChart mpLineChart;
 
     public MeatChangeFragment() {
         // Required empty public constructor
@@ -107,12 +107,12 @@ public class MeatChangeFragment extends Fragment {
         });
     }
 
-    private ArrayList<com.github.mikephil.charting.data.Entry> dataValues3() throws ParseException {
+    private ArrayList<com.github.mikephil.charting.data.Entry> dataValuesMeat() throws ParseException {
         EntryController entryController = new EntryController();
         entryController.getDietEntries();
-        ArrayList<com.github.mikephil.charting.data.Entry> dataVals3 = entryController.createMeatGraphEntries();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataValsMeat = entryController.createMeatGraphEntries();
 
-        return dataVals3;
+        return dataValsMeat;
     }
 
     private void  createMeatGraph( View view){
@@ -124,7 +124,7 @@ public class MeatChangeFragment extends Fragment {
 
         LineDataSet lineDataSet1 = null;
         try {
-            lineDataSet1 = new LineDataSet(dataValues3(), "Mass per day");
+            lineDataSet1 = new LineDataSet(dataValuesMeat(), "Mass per day");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class MeatChangeFragment extends Fragment {
 
         xAxis.setValueFormatter(new MyMeatChangeAxisValueFormatter());
         try {
-            xAxis.setLabelCount(dataValues3().size(),true);
+            xAxis.setLabelCount(dataValuesMeat().size(),true);
         } catch (ParseException e) {
             e.printStackTrace();
         }

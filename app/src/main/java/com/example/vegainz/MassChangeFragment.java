@@ -39,7 +39,7 @@ public class MassChangeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    LineChart mpLineChart;
+    private LineChart mpLineChart;
 
     public MassChangeFragment() {
         // Required empty public constructor
@@ -106,12 +106,12 @@ public class MassChangeFragment extends Fragment {
     }
 
 
-    private ArrayList<com.github.mikephil.charting.data.Entry> dataValues1() throws ParseException {
+    private ArrayList<com.github.mikephil.charting.data.Entry> dataValuesMass() throws ParseException {
         EntryController entryController = new EntryController();
         entryController.getMassEntries();
-        ArrayList<com.github.mikephil.charting.data.Entry> dataVals = entryController.createMassGraphEntries();
+        ArrayList<com.github.mikephil.charting.data.Entry> dataValsMass = entryController.createMassGraphEntries();
 
-        return dataVals;
+        return dataValsMass;
     }
 
     private void  createMassGraph( View view){
@@ -123,7 +123,7 @@ public class MassChangeFragment extends Fragment {
 
         LineDataSet lineDataSet1 = null;
         try {
-            lineDataSet1 = new LineDataSet(dataValues1(), "Mass per day");
+            lineDataSet1 = new LineDataSet(dataValuesMass(), "Mass per day");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -139,9 +139,9 @@ public class MassChangeFragment extends Fragment {
         xAxis.setGranularityEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        xAxis.setValueFormatter(new MyAxisValueFormatter());
+        xAxis.setValueFormatter(new MyMassAxisValueFormatter());
         try {
-            xAxis.setLabelCount(dataValues1().size(),true);
+            xAxis.setLabelCount(dataValuesMass().size(),true);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -152,7 +152,7 @@ public class MassChangeFragment extends Fragment {
         mpLineChart.invalidate();
     }
 
-    private class MyAxisValueFormatter extends ValueFormatter {
+    private class MyMassAxisValueFormatter extends ValueFormatter {
 
             @Override
             public String getFormattedValue(float value) {
